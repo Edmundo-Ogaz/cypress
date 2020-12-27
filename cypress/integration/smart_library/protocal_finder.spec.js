@@ -332,3 +332,39 @@ it('delete and undelete protocol"', function(){
     })
 })
 
+it('save new protocal"', function(){
+    cy.get('.w-protocol-finder__toolbar > .w-action').should('be.visible')
+    cy.get('.w-protocol-finder__toolbar > .w-action > .w-label').contains('Nuevo protocolo')
+    cy.get('.w-protocol-finder__toolbar > .w-action > .w-label').click()
+
+    cy.get('.w-new-protocol__form > .w-new-protocol__protocol-name')
+      .find('[type="text"]').type('CYPRESS')
+
+    cy.get('.w-new-protocol__form > .w-new-protocol__diagnostic')
+      .find('[type="text"]').type('abd')
+
+    cy.wait(2000)
+
+    cy.get('.w-new-protocol__form > .w-new-protocol__diagnostic > .w-typeahead > .w-typeahead__selector').first().click()
+
+    cy.get('.w-new-protocol__form > .w-new-protocol__description')
+      .find('textarea').type('init CYPRESS')
+
+    cy.get('.w-new-protocol > .w-modal__root > .w-modal__footer > .w-action--primary')
+    .click()
+    .then(() => {
+        cy.wait(2000)
+    })
+    .then(() => {
+        cy.get('.w-dialog--info-emphasis > .w-modal__root > .w-modal__footer > .w-action--primary')
+        .should('be.visible')
+        cy.get('.w-dialog--info-emphasis > .w-modal__root > .w-modal__footer > .w-action--primary')
+        .click()
+    })
+    .then(() => {
+        cy.get('.w-protocol-viewer').find('.w-window__header').should('be.visible')
+        cy.get('.w-protocol-viewer__main-title > .w-title__label')
+        .should('be.visible')
+        cy.get('.w-protocol-viewer__sub-title > .w-title__label').contains('CYPRESS')
+    })
+})
